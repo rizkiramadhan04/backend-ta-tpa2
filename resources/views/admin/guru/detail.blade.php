@@ -15,7 +15,7 @@
                 <br>
 
                 <h6>Email</h6>
-                <p>{{ $data->email }}</p>
+                <p><b>{{ $data->email }}</b></p>
 
                 <hr>
                 <br>
@@ -181,7 +181,7 @@
                                 class="float-right">{{ $data_mengajar['data_mengajar_ulang'] }}%</span></h4>
                         <div class="progress mb-4">
                             <div class="progress-bar bg-danger" role="progressbar"
-                                style="width: {{ $data_mengajar['data_mengajar_ulang'] }}%"
+                                style="width: {{ ($data_mengajar['data_mengajar_ulang'] / 30) * 100 }}%"
                                 aria-valuenow="{{ $data_mengajar['data_mengajar_ulang'] }}" aria-valuemin="0"
                                 aria-valuemax=""></div>
                         </div>
@@ -189,7 +189,7 @@
                                 class="float-right">{{ $data_mengajar['data_mengajar_cukup'] }}%</span></h4>
                         <div class="progress mb-4">
                             <div class="progress-bar bg-warning" role="progressbar"
-                                style="width: {{ $data_mengajar['data_mengajar_cukup'] }}%"
+                                style="width: {{ ($data_mengajar['data_mengajar_cukup'] / 30) * 100 }}%"
                                 aria-valuenow="{{ $data_mengajar['data_mengajar_cukup'] }}" aria-valuemin="0"
                                 aria-valuemax=""></div>
                         </div>
@@ -197,7 +197,7 @@
                                 class="float-right">{{ $data_mengajar['data_mengajar_lanjut'] }}%</span></h4>
                         <div class="progress mb-4">
                             <div class="progress-bar" role="progressbar"
-                                style="width: {{ $data_mengajar['data_mengajar_lanjut'] }}%"
+                                style="width: {{ ($data_mengajar['data_mengajar_lanjut'] / 30) * 100 }}%"
                                 aria-valuenow="{{ $data_mengajar['data_mengajar_lanjut'] }}" aria-valuemin="0"
                                 aria-valuemax=""></div>
                         </div>
@@ -220,7 +220,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <h6><b>Data {{ $data->name }}</b></h6>
+                        <h6>Data : <b>{{ $data->name }}</b></h6>
                         <form action="{{ route('admin.export-mengajar', $data->id) }}" method="post">
                             @csrf
                             <div class="form-group">
@@ -252,7 +252,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <h6><b>Data {{ $data->name }}</b></h6>
+                        <h6>Data : <b>{{ $data->name }}</b></h6>
                         <form action="{{ route('admin.export-presensi', $data->id) }}" method="post">
                             @csrf
                             <div class="form-group">

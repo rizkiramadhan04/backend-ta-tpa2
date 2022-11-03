@@ -3,10 +3,15 @@
 
 @section('content')
     <!-- Begin Page Content -->
-    
-            <div class="text-center mt-5">
-                <h3>Selamat datang di dashboard !</h3>
-            </div>
+
+    <div class="text-center mt-5">
+        @if (Auth::user()->roles != 'admin')
+            <h5 class="mt-3 text-danger"><b>*Mohon maaf anda bukan admin silahkan keluar !</b></h5>
+        @else
+            <h3>Selamat datang di dashboard !</h3>
+        @endif
+    </div>
+
 
     <!-- Content Row -->
     <div class="row">

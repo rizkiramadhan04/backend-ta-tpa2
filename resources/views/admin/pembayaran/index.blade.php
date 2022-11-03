@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Pembayaran')
+@section('title', 'Data Pembayaran')
 @section('content')
     <div class="container">
 
@@ -24,7 +24,7 @@
             <h1 class="h3 mb-0 text-gray-800">Pembayaran</h1>
             <a href="{{ route('admin.export-pembayaran') }}" class="btn btn-sm btn-success shadow-sm" data-toggle="modal"
                 data-target="#pembayaran">
-               <i class="fa-solid fa-download"></i> Export Excel Pembayaran
+                <i class="fa-solid fa-download"></i> Export Excel Pembayaran
             </a>
         </div>
         <div class="d-sm-flex align-items-center justify-content-between mb-4">

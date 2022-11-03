@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Data Presensi')
+@section('title', 'Data Jadwal Presensi')
 @section('content')
     <div class="text-center">
 
@@ -51,10 +51,6 @@
                                 <td>{{ date('d-m-Y H:i', strtotime($obj->tanggal_akhir)) }}</td>
                                 <td width="20">{!! DNS2D::getBarcodeHTML(base64_decode($obj->kode_presensi), 'QRCODE') !!}</td>
                                 <td>
-                                    <a href="#" class="btn btn-success">
-                                        <i class="fa fa-eye"></i>
-                                    </a>
-
                                     <form action="{{ route('admin.presensi-delete', $obj->id) }}" method="post"
                                         class="d-inline">
                                         @csrf
