@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateNamaSurahsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('nama_surahs', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->integer('no_surah')->default(0);
+            $table->string('nama_surah')->nullable();
+            $table->text('no_ayat')->nullable();
+
+            $table->softDeletes();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('nama_surahs');
+    }
+}
