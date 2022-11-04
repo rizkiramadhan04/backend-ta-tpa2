@@ -70,7 +70,7 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Silahkan pilih "Keluar" jika anda ingin keluar dari dashboard</div>
+                <div class="modal-body">Silahkan pilih "Keluar" jika anda ingin keluar</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
 
