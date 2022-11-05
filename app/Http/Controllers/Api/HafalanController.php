@@ -24,13 +24,13 @@ class HafalanController extends Controller
                 foreach ($data as $key => $value) {
  
                     $data_hfl[] = array(
-                        'nama_murid'=> $murid->name,
-                        'nama_guru'=> $value->nama_guru,
-                        'materi_hafalan'=> $value->materi_hafalan,
-                        'nilai'=> $value->nilai,
-                        'type'=> $value->jenis,
-                        'tanggal_hafalan'=> $value->tanggal_hafalan,
-                        'created_at'=> $value->created_at,
+                        'nama_murid'        => $murid->name,
+                        'nama_guru'         => $value->nama_guru,
+                        'materi_hafalan'    => $value->materi_hafalan,
+                        'nilai'             => $value->nilai,
+                        'type'              => $value->jenis,
+                        'tanggal_hafalan'   => $value->tanggal_hafalan,
+                        'created_at'        => $value->created_at,
                     );
 
                 }
@@ -68,13 +68,13 @@ class HafalanController extends Controller
                     $murid = DB::table('users')->select('users.name')->where('id', $value->murid_id)->first();
  
                     $data_hfl[] = array(
-                        'nama_murid'=> $murid->name,
-                        'nama_guru'=> $value->nama_guru,
-                        'materi_hafalan'=> $value->materi_hafalan,
-                        'nilai'=> $value->nilai,
-                        'type'=> $value->jenis,
-                        'tanggal_hafalan'=> $value->tanggal_hafalan,
-                        'created_at'=> $value->created_at,
+                        'nama_murid'        => $murid->name,
+                        'nama_guru'         => $value->nama_guru,
+                        'materi_hafalan'    => $value->materi_hafalan,
+                        'nilai'             => $value->nilai,
+                        'type'              => $value->jenis,
+                        'tanggal_hafalan'   => $value->tanggal_hafalan,
+                        'created_at'        => $value->created_at,
                     );
 
                 }

@@ -32,18 +32,18 @@ class PencatatanController extends Controller
                     }
                     
                     $data_pct[] = array(
-                        'nama_murid'=> $nama_murid->name,
-                        'nama_guru'=> $value->nama_guru,
-                        'nama_surah'=> $value->nama_surah,
-                        'no_ayat'=> $value->no_ayat,
-                        'no_iqro'=> $value->no_iqro,
-                        'jilid'=> $value->jilid,
-                        'halaman'=> $value->halaman,
-                        'hasil'=> $hasil,
-                        'tanggal'=> $value->tanggal,
-                        'jenis_kitab'=> $value->jenis_kitab,
-                        'juz'=> $value->juz,
-                        'created_at'=> $value->created_at,
+                        'nama_murid'    => $nama_murid->name,
+                        'nama_guru'     => $value->nama_guru,
+                        'nama_surah'    => $value->nama_surah,
+                        'no_ayat'       => $value->no_ayat,
+                        'no_iqro'       => $value->no_iqro,
+                        'jilid'         => $value->jilid,
+                        'halaman'       => $value->halaman,
+                        'hasil'         => $hasil,
+                        'tanggal'       => $value->tanggal,
+                        'jenis_kitab'   => $value->jenis_kitab,
+                        'juz'           => $value->juz,
+                        'created_at'    => $value->created_at,
                     );
 
                 }
@@ -89,18 +89,18 @@ class PencatatanController extends Controller
                     }
                     
                     $data_pct[] = array(
-                        'nama_murid'=> $value->nama_murid,
-                        'nama_guru'=> $guru->name,
-                        'nama_surah'=> $value->nama_surah,
-                        'no_ayat'=> $value->no_ayat,
-                        'no_iqro'=> $value->no_iqro,
-                        'jilid'=> $value->jilid,
-                        'halaman'=> $value->halaman,
-                        'hasil'=> $hasil,
-                        'tanggal'=> $value->tanggal,
-                        'jenis_kitab'=> $value->jenis_kitab,
-                        'juz'=> $value->juz,
-                        'created_at'=> $value->created_at,
+                        'nama_murid'    => $value->nama_murid,
+                        'nama_guru'     => $guru->name,
+                        'nama_surah'    => $value->nama_surah,
+                        'no_ayat'       => $value->no_ayat,
+                        'no_iqro'       => $value->no_iqro,
+                        'jilid'         => $value->jilid,
+                        'halaman'       => $value->halaman,
+                        'hasil'         => $hasil,
+                        'tanggal'       => $value->tanggal,
+                        'jenis_kitab'   => $value->jenis_kitab,
+                        'juz'           => $value->juz,
+                        'created_at'    => $value->created_at,
                     );
 
                 }
