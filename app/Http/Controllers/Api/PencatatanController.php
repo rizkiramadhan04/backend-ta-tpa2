@@ -16,7 +16,7 @@ class PencatatanController extends Controller
         if (auth()->guard('api')->check()) {
 
             $user_id = auth()->guard('api')->user()->id;
-            $data = Pencatatan::select('pencatatans.*', 'users.name')->join('users', 'pencatatans.guru_id', '=', 'users.id')->where('murid_id', $user_id)->limit(30)->get();
+            $data = Pencatatan::select('pencatatans.*', 'users.name as nama_guru', 'alqurans.nama_surah')->join('users', 'pencatatans.guru_id', '=', 'users.id')->join('alqurans', 'pencatatans.no_surah', '=', 'alqurans.no_surah')->where('murid_id', $user_id)->whereMonth('tanggal', date('m'))->limit(30)->get();
 
             if (count($data) > 0) {
                 $response = [
@@ -43,8 +43,8 @@ class PencatatanController extends Controller
 
         if (auth()->guard('api')->check()) {
 
-            $data = Pencatatan::select('pencatatans.*', 'users.name')->join('users', 'pencatatans.guru_id', '=', 'users.id')->where('murid_id', $request->murid_id)->limit(30)->get();
-
+            $data = Pencatatan::select('pencatatans.*', 'users.name as nama_guru', 'alqurans.nama_surah')->join('users', 'pencatatans.guru_id', '=', 'users.id')->join('alqurans', 'pencatatans.no_surah', '=', 'alqurans.no_surah')->where('murid_id', $request->murid_id)->whereMonth('tanggal', date('m'))->get();
+    
             if (count($data) > 0) {
                 $response = [
                     'status' => 'success',

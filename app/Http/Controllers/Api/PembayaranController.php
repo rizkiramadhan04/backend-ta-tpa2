@@ -20,10 +20,21 @@ class PembayaranController extends Controller
             $data    = Pembayaran::where('user_id', $user_id)->orderBy('created_at', 'asc')->limit(30)->get();
     
             if (count($data) > 0) {
+
+                foreach ($data as $key => $value) {
+                    $data_[] = array(
+                        'gambar' => base64_decode($value->gambar),
+                        'user_id' => $value->user_id,
+                        'jumlah' => $value->jumlah,
+                    );
+
+                }
+                // dd($data);
                 $response = [
                     'status' => 'success',
-                    'data'   => $data,
+                    'data'   => $data_,
                 ];
+
             } else {
                 $response = [
                     'status'  => 'failed',
