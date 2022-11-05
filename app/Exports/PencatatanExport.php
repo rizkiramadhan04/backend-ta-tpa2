@@ -27,6 +27,7 @@ class PencatatanExport implements FromView
     {
         $pencatatan = Pencatatan::select('pencatatans.*', 'users.name as nama')
         ->join('users', 'users.id', '=', 'pencatatans.murid_id')->where('pencatatans.murid_id', $this->id);
+        
         if($this->tanggal_awal != "" && $this->tanggal_akhir != ""){
             $pencatatan = $pencatatan->whereBetween('pencatatans.created_at', [$this->tanggal_awal, $this->tanggal_akhir]);
         }

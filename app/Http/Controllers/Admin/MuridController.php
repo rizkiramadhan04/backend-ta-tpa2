@@ -97,6 +97,13 @@ class MuridController extends Controller
         $param = array('id' => $id, 'tanggal_awal' => $request->tanggal_awal, 'tanggal_akhir' => $request->tanggal_akhir);
         return Excel::download(new PresensiExport($param), 'Presensi_'.$nama_user->name.'.xlsx');
     }
+    
+     public function exportPencatatan(Request $request, $id) {
+
+        $nama_user = User::findOrFail($id);
+        $param = array('id' => $id, 'tanggal_awal' => $request->tanggal_awal, 'tanggal_akhir' => $request->tanggal_akhir);
+        return Excel::download(new PencatatanExport($param), 'Mengaji_'.$nama_user->name.'.xlsx');
+    }
 
     public function exportHafalan(Request $request, $id) {
 

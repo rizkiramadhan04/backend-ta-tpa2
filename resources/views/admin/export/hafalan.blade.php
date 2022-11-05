@@ -14,6 +14,7 @@
                     <th>No</th>
                     <th>Nama Murid</th>
                     <th>Materi Hafalan</th>
+                    <th>Type</th>
                     <th>Tanggal Hafalan</th>
                     <th>Nilai</th>
                     <th>Nama Penyimak</th>
@@ -32,6 +33,13 @@
                         <td>{{ $i++ }}</td>
                         <td>{{ ucwords($value->nama) }}</td>
                         <td>{{ $value->materi_hafalan }}</td>
+                        <td>
+                            <?php if ($value->jenis == 1) { ?>
+                            <b>Hafalan Harian</b>
+                            <?php } else if($value->jenis == 2) { ?>
+                            <b>Halafan Pokok</b>
+                            <?php } ?>
+                        </td>
                         <td>{{ date('d-m-Y', strtotime($value->tanggal_hafalan)) }}</td>
                         <td>{{ $value->nilai }}</td>
                         <td>{{ $nama_guru }}</td>
