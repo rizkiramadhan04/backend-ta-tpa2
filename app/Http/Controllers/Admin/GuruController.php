@@ -40,18 +40,18 @@ class GuruController extends Controller
         $desember = DB::table('presensis')->where('user_id', $id)->whereMonth('tanggal_masuk', '12')->get()->count(); 
 
         $dataPresensi = array(
-            'januari' => $januari,
-            'februari' => $februari,
-            'maret' => $maret,
-            'april' => $april,
-            'mei' => $mei,
-            'juni' => $juni,
-            'juli' => $juli,
-            'agustus' => $agustus,
+            'januari'   => $januari,
+            'februari'  => $februari,
+            'maret'     => $maret,
+            'april'     => $april,
+            'mei'       => $mei,
+            'juni'      => $juni,
+            'juli'      => $juli,
+            'agustus'   => $agustus,
             'september' => $september,
-            'oktober' => $oktober,
-            'november' => $november,
-            'desember' => $desember,
+            'oktober'   => $oktober,
+            'november'  => $november,
+            'desember'  => $desember,
         );
 
         $data_mengajar = array(

@@ -53,8 +53,7 @@ class PresensiController extends Controller
             
             $data                   = new JadwalPresensi;
             $data->nama_kegiatan    = $request->nama_kegiatan;
-            $data->tanggal_awal     = date('Y-m-d H:i', strtotime($request->tanggal_awal));
-            $data->tanggal_akhir    = date('Y-m-d H:i', strtotime($request->tanggal_akhir));
+            $data->tanggal_presensi     = date('Y-m-d H:i', strtotime($request->tanggal_awal));
             $data->kode_presensi    = base64_encode($kode_presensi);
 
             $data->save();

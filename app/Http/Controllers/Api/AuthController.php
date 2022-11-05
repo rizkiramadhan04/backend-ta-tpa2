@@ -35,9 +35,10 @@ class AuthController extends Controller
         }
 
         return response()->json([
-            'success' => 'success',
-            'user'    => auth()->guard('api')->user(),    
-            'token'   => $token   
+            'success'     => 'success',
+            'user'        => auth()->guard('api')->user(),
+            'user_status' => (auth()->guard('api')->user()->status == 0 ? 'Murid' : 'Guru'),  
+            'token'       => $token   
         ], 200);
 
 
@@ -53,7 +54,7 @@ class AuthController extends Controller
                 'status'        => 'success',
                 'nama'          => $user->name,
                 'email'         => $user->email,
-                'status_user'   => ($user->status == 0 ? 'Mutid' : 'Guru'),
+                'status_user'   => ($user->status == 0 ? 'Murid' : 'Guru'),
                 'tanggal_lahir' => date('d-m-Y', strtotime($user->tgl_lahir)),
                 'alamat'        => $user->alamat,
                 'tingkatan'     => $user->tingkatan,
@@ -76,7 +77,7 @@ class AuthController extends Controller
 
             $validator = Validator::make($request->all(), [
                 'name'      => 'required',
-                'email'     => 'required|email|exists:users',
+                'email'     => 'required',
                 'tgl_lahir' => 'required',
                 'alamat'    => 'required',
                 'no_hp'     => 'required',

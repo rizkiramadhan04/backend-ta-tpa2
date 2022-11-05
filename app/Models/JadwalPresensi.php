@@ -11,8 +11,7 @@ class JadwalPresensi extends Model
 
     protected $fillable = [
         'nama_kegiatan',
-        'tanggal_awal',
-        'tanggal_akhir',
+        'tanggal_presensi',
         'kode_presensi',
     ];
 }

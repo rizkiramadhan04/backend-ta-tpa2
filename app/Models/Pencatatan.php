@@ -12,7 +12,7 @@ class Pencatatan extends Model
     protected $fillable = [
 
         'murid_id',
-        'no_surat',
+        'no_surah',
         'no_ayat',
         'no_iqro',
         'jilid',
@@ -20,5 +20,6 @@ class Pencatatan extends Model
         'guru_id',
         'hasil',
         'tanggal',
+        'juz',
     ];
 }

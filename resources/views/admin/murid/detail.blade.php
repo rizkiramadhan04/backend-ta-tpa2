@@ -21,7 +21,7 @@
                 <br>
 
                 <h6>Tanggal Lahir</h6>
-                <h6><b>{{ $data->tgl_lahir }}</b></h6>
+                <h6><b>{{ date('d-m-Y', strtotime($data->tgl_lahir)) }}</b></h6>
 
                 <hr>
                 <br>
@@ -42,7 +42,7 @@
         <hr>
         <br>
 
-        <h5 style="text-align: center; font-weight: bold;">Persentase presensi dan mengaji murid</h5>
+        <h5 style="text-align: center; font-weight: bold;">Persentase presensi, mengaji, dan halafan murid</h5>
 
         <div class="row mt-5 mb-5">
 

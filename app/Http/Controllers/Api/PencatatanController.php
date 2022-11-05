@@ -16,7 +16,7 @@ class PencatatanController extends Controller
         if (auth()->guard('api')->check()) {
 
             $user_id = auth()->guard('api')->user()->id;
-            $data = Pencatatan::where('murid_id', $user_id)->orderBy('created_at', 'asc')->limit(30)->get();
+            $data = Pencatatan::select('pencatatans.*', 'users.name')->join('users', 'pencatatans.guru_id', '=', 'users.id')->where('murid_id', $user_id)->limit(30)->get();
 
             if (count($data) > 0) {
                 $response = [
@@ -43,7 +43,7 @@ class PencatatanController extends Controller
 
         if (auth()->guard('api')->check()) {
 
-            $data = Pencatatan::where('murid_id', $request->murid_id)->orderBy('created_at', 'asc')->limit(30)->get();
+            $data = Pencatatan::select('pencatatans.*', 'users.name')->join('users', 'pencatatans.guru_id', '=', 'users.id')->where('murid_id', $request->murid_id)->limit(30)->get();
 
             if (count($data) > 0) {
                 $response = [
@@ -97,27 +97,36 @@ class PencatatanController extends Controller
             try {
                 
                 $guru_id = auth()->guard('api')->user()->id;
-    
-                $pencatatan = new Pencatatan;
-                $pencatatan->murid_id    = $request->murid_id;
-                $pencatatan->no_surat    = $request->no_surat;
-                $pencatatan->no_ayat     = $request->no_ayat;
-                $pencatatan->no_iqro     = $request->no_iqro;
-                $pencatatan->jilid       = $request->jilid;
-                $pencatatan->halaman     = $request->halaman;
-                $pencatatan->guru_id     = $guru_id;
-                $pencatatan->hasil       = $request->hasil;
-                $pencatatan->tanggal     = $request->tanggal;
-                $pencatatan->jenis_kitab = $request->jenis_kitab;
+                $guru = DB::table('users')->where('id', $guru_id)->first();
+                
+                if ($guru->status == 1) {
+                    $pencatatan = new Pencatatan;
+                    $pencatatan->murid_id    = $request->murid_id;
+                    $pencatatan->no_surah    = $request->no_surah;
+                    $pencatatan->no_ayat     = $request->no_ayat;
+                    $pencatatan->no_iqro     = $request->no_iqro;
+                    $pencatatan->jilid       = $request->jilid;
+                    $pencatatan->halaman     = $request->halaman;
+                    $pencatatan->guru_id     = $guru_id;
+                    $pencatatan->hasil       = $request->hasil;
+                    $pencatatan->tanggal     = $request->tanggal;
+                    $pencatatan->jenis_kitab = $request->jenis_kitab;
+                    $pencatatan->juz         = $request->juz;
 
-                $pencatatan->save();
-                DB::commit();
+                    $pencatatan->save();
+                    DB::commit();
 
-                $response = [
-                    'status'   => 'success',
-                    'message'  => 'Data berhasil disimpan!',
-                    'data'     => $pencatatan,
-                ];
+                    $response = [
+                        'status'   => 'success',
+                        'message'  => 'Data berhasil disimpan!',
+                        'data'     => $pencatatan,
+                    ];
+                } else {
+                    $response = [
+                        'status'   => 'failed',
+                        'message'  => 'Anda buka guru pengajar!',
+                    ];
+                }
 
             } catch (Exception $e) {
 

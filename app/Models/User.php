@@ -27,6 +27,7 @@ class User extends Authenticatable implements JWTSubject
         'tgl_lahir',
         'tingkatan',
         'no_hp',
+        'roles',
     ];
 
     /**

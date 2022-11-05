@@ -11,11 +11,11 @@ class Presensi extends Model
 
     protected $fillable = [
         'user_id',
-        'status_id',
+        'status_user',
         'status_presensi',
         'tanggal_masuk',
         'tanggal_izin',
-        'jadwal_presensi_id',
+        'alasan_izin',
         'kode_jadwal_presensi',
     ];
 }
