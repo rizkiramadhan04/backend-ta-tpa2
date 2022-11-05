@@ -16,12 +16,41 @@ class PencatatanController extends Controller
         if (auth()->guard('api')->check()) {
 
             $user_id = auth()->guard('api')->user()->id;
-            $data = Pencatatan::select('pencatatans.*', 'users.name as nama_guru', 'alqurans.nama_surah')->join('users', 'pencatatans.guru_id', '=', 'users.id')->join('alqurans', 'pencatatans.no_surah', '=', 'alqurans.no_surah')->where('murid_id', $user_id)->whereMonth('tanggal', date('m'))->limit(30)->get();
-
+            $data = Pencatatan::select('pencatatans.*', 'users.name as nama_guru', 'alqurans.nama_surah as nama_surah')->join('users', 'pencatatans.guru_id', '=', 'users.id')->join('alqurans', 'pencatatans.no_surah', '=', 'alqurans.no_surah')->where('murid_id', $user_id)->whereMonth('tanggal', date('m'))->limit(30)->get();
+            $nama_murid = DB::table('users')->select('users.name')->where('id', $user_id)->first();
+            
             if (count($data) > 0) {
+                
+                foreach ($data as $key => $value) {
+
+                    if ($value->hasil == 0) {
+                        $hasil = 'Mengulang';
+                    } else if ($value->hasil == 1) {
+                        $hasil = 'Cukup';
+                    } else {
+                        $hasil = 'Lanjut';
+                    }
+                    
+                    $data_pct[] = array(
+                        'nama_murid'=> $nama_murid->name,
+                        'nama_guru'=> $value->nama_guru,
+                        'nama_surah'=> $value->nama_surah,
+                        'no_ayat'=> $value->no_ayat,
+                        'no_iqro'=> $value->no_iqro,
+                        'jilid'=> $value->jilid,
+                        'halaman'=> $value->halaman,
+                        'hasil'=> $hasil,
+                        'tanggal'=> $value->tanggal,
+                        'jenis_kitab'=> $value->jenis_kitab,
+                        'juz'=> $value->juz,
+                        'created_at'=> $value->created_at,
+                    );
+
+                }
+
                 $response = [
                     'status' => 'success',
-                    'data'   => $data,
+                    'data'   => $data_pct,
                 ];
             } else {
                 $response = [
@@ -43,12 +72,42 @@ class PencatatanController extends Controller
 
         if (auth()->guard('api')->check()) {
 
-            $data = Pencatatan::select('pencatatans.*', 'users.name as nama_guru', 'alqurans.nama_surah')->join('users', 'pencatatans.guru_id', '=', 'users.id')->join('alqurans', 'pencatatans.no_surah', '=', 'alqurans.no_surah')->where('murid_id', $request->murid_id)->whereMonth('tanggal', date('m'))->get();
-    
+            $user_id = auth()->guard('api')->user()->id;
+            $data = Pencatatan::select('pencatatans.*', 'users.name as nama_murid', 'alqurans.nama_surah as nama_surah')->join('users', 'pencatatans.murid_id', '=', 'users.id')->join('alqurans', 'pencatatans.no_surah', '=', 'alqurans.no_surah')->where('murid_id', $request->murid_id)->whereMonth('tanggal', date('m'))->get();
+            
             if (count($data) > 0) {
+                
+                foreach ($data as $key => $value) {
+                    $guru = DB::table('users')->select('users.name')->where('id', $value->guru_id)->first();
+
+                    if ($value->hasil == 0) {
+                        $hasil = 'Mengulang';
+                    } else if ($value->hasil == 1) {
+                        $hasil = 'Cukup';
+                    } else {
+                        $hasil = 'Lanjut';
+                    }
+                    
+                    $data_pct[] = array(
+                        'nama_murid'=> $value->nama_murid,
+                        'nama_guru'=> $guru->name,
+                        'nama_surah'=> $value->nama_surah,
+                        'no_ayat'=> $value->no_ayat,
+                        'no_iqro'=> $value->no_iqro,
+                        'jilid'=> $value->jilid,
+                        'halaman'=> $value->halaman,
+                        'hasil'=> $hasil,
+                        'tanggal'=> $value->tanggal,
+                        'jenis_kitab'=> $value->jenis_kitab,
+                        'juz'=> $value->juz,
+                        'created_at'=> $value->created_at,
+                    );
+
+                }
+
                 $response = [
                     'status' => 'success',
-                    'data'   => $data,
+                    'data'   => $data_pct,
                 ];
             } else {
                 $response = [

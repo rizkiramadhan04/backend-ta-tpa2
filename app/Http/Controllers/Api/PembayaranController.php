@@ -22,17 +22,21 @@ class PembayaranController extends Controller
             if (count($data) > 0) {
 
                 foreach ($data as $key => $value) {
-                    $data_[] = array(
-                        'gambar' => base64_decode($value->gambar),
-                        'user_id' => $value->user_id,
-                        'jumlah' => $value->jumlah,
+                    $data_p[] = array(
+                        'no_hp'      => $value->no_hp,
+                        'jumlah'     => $value->jumlah,
+                        'no_rek'     => $value->no_rek,
+                        'jenis_pembayaran' => $value->jenis_pembayaran,
+                        'status'     => ($value->status == 0 ? 'Belum dilihat' : 'Diterima'),
+                        'gambar'     => base64_decode($value->gambar),
+                        'created_at' => $value->created_at,
                     );
 
                 }
-                // dd($data);
+
                 $response = [
                     'status' => 'success',
-                    'data'   => $data_,
+                    'data'   => $data_p,
                 ];
 
             } else {

@@ -17,12 +17,27 @@ class HafalanController extends Controller
             $user_id = auth()->guard('api')->user()->id;
 
             $data = Hafalan::select('hafalans.*', 'users.name as nama_guru')->join('users', 'hafalans.guru_id', '=', 'users.id')->where('murid_id', $user_id)->orderBy('created_at', 'asc')->limit(30)->get();
+            $murid = DB::table('users')->select('users.name')->where('id', $user_id)->first();
 
             if (count($data) > 0) {
 
+                foreach ($data as $key => $value) {
+ 
+                    $data_hfl[] = array(
+                        'nama_murid'=> $murid->name,
+                        'nama_guru'=> $value->nama_guru,
+                        'materi_hafalan'=> $value->materi_hafalan,
+                        'nilai'=> $value->nilai,
+                        'type'=> $value->jenis,
+                        'tanggal_hafalan'=> $value->tanggal_hafalan,
+                        'created_at'=> $value->created_at,
+                    );
+
+                }
+
                 $response = [
                     'status' => 'success',
-                    'data'   => $data
+                    'data'   => $data_hfl
                 ];
             } else {
                 $response = [
@@ -49,9 +64,24 @@ class HafalanController extends Controller
     
             if (count($data) > 0) {
 
+                foreach ($data as $key => $value) {
+                    $murid = DB::table('users')->select('users.name')->where('id', $value->murid_id)->first();
+ 
+                    $data_hfl[] = array(
+                        'nama_murid'=> $murid->name,
+                        'nama_guru'=> $value->nama_guru,
+                        'materi_hafalan'=> $value->materi_hafalan,
+                        'nilai'=> $value->nilai,
+                        'type'=> $value->jenis,
+                        'tanggal_hafalan'=> $value->tanggal_hafalan,
+                        'created_at'=> $value->created_at,
+                    );
+
+                }
+
                 $response = [
                     'status' => 'success',
-                    'data'   => $data
+                    'data'   => $data_hfl
                 ];
             } else {
                 $response = [
