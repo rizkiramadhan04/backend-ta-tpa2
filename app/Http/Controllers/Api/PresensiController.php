@@ -160,4 +160,76 @@ class PresensiController extends Controller
 
         return response()->json($response, 200);
     }
+
+    public function getJadwalPresensi() {
+
+        if (auth()->guard('api')->check()) {
+
+            $data = DB::table('jadwal_presensis')->get();
+
+            if ($data) {
+
+                foreach ($data as $key => $value) {
+                    $data_jdwl[] = array(
+                        'nama_kegiatan' => $value->nama_kegiatan,
+                        'tanggal'       => $value->tanggal_presensi,
+                        'kode_presensi' => base64_decode($value->kode_presensi),
+                    );
+                }
+    
+                $response = [
+                    'status' => 'success',
+                    'data'   => $data_jdwl,
+                ];
+
+            } else {
+                $response = [
+                    'status'  => 'failed',
+                    'message' => 'Jadwal presensi tidak ada!',
+                ];
+            }
+
+        } else {
+            $response = [
+                'status'  => 'failed',
+                'message' => 'Mohon untuk login terlebih dahulu!'
+            ];
+        }
+
+        return response()->json($response, 200);
+
+    }
+
+    public function getDetailJadwalPresensi(Request $request) {
+
+        if (auth()->guard('api')->check()) {
+
+            $data = DB::table('jadwal_presensis')->where('id', $request->jadwal_id)->first();
+
+            if ($data) {
+
+                $response = [
+                    'status'        => 'success',
+                    'nama_kegiatan' => $data->nama_kegiatan,
+                    'tanggal'       => $data->tanggal_presensi,
+                    'kode_presensi' => base64_decode($data->kode_presensi),
+                ];
+
+            } else {
+                $response = [
+                    'status'  => 'failed',
+                    'message' => 'Jadwal presensi tidak ada!',
+                ];
+            }
+
+        } else {
+            $response = [
+                'status'  => 'failed',
+                'message' => 'Mohon untuk login terlebih dahulu!'
+            ];
+        }
+
+        return response()->json($response, 200);
+
+    }
 }

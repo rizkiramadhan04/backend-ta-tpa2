@@ -28,6 +28,8 @@ Route::post('/logout', 'Api\AuthController@logout')->name('api.logout');
 Route::post('/get-data-presensi', 'Api\PresensiController@getData')->name('api.get-data-presensi');
 Route::post('/get-data-presensi-by-guru', 'Api\PresensiController@getDataGuru')->name('api.get-data-presensi-by-guru');
 Route::post('/input-data-presensi', 'Api\PresensiController@inputPresensi')->name('api.input-data-presensi');
+Route::get('/get-data-jadwal', 'Api\PresensiController@getJadwalPresensi')->name('api.get-data-jadwal');
+Route::post('/get-data-detail-jadwal', 'Api\PresensiController@getDetailJadwalPresensi')->name('api.get-data-detail-jadwal');
 
 //hafalan 
 Route::post('/get-data-hafalan', 'Api\HafalanController@getData')->name('api.get-data-hafalan');
