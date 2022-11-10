@@ -16,12 +16,30 @@ class PresensiController extends Controller
         if (auth()->guard('api')->check()) {
 
             $user_id = auth()->guard('api')->user()->id;
-            $data = Presensi::where('user_id', $user_id)->orderBy('created_at', 'asc')->limit(30)->get();
+            $data = Presensi::select('presensis.*', 'users.name as nama_murid')->join('users', 'presensis.user_id', '=', 'users.id')->where('user_id', $user_id)->orderBy('created_at', 'desc')->limit(30)->get();
 
             if (count($data) > 0) {
+
+                foreach ($data as $key => $value) {
+                    
+                    $data_presensi[] = array(
+                        'id'            => $value->id,
+                        'nama_murid'    => $value->nama_murid,
+                        'status_sebagai' => ($value->status_sebagai == 1 ? 'Guru': 'Murid'),
+                        'tanggal_masuk' => $value->tanggal_masuk,
+                        'waktu_masuk'   => date('H:i', strtotime($value->tanggal_masuk)),
+                        'status_masuk'  => ($value->status_presensi == 1 ? 'Tepat Waktu' : 'Telat'),
+                        'tanggal_izin'  => $value->tanggal_izin,
+                        'alasan_izin'   => $value->alasan_izin,
+                        'kode_jadwal'   => base64_decode($value->kode_jadwal_presensi),
+                        'created_at'    => $value->created_at,
+                    );
+
+                }
+
                 $response = [
                     'status' => 'success',
-                    'data'   => $data,
+                    'data'   => $data_presensi,
                 ];
             } else {
                 $response = [
@@ -43,12 +61,30 @@ class PresensiController extends Controller
 
         if (auth()->guard('api')->check()) {
 
-            $data = Presensi::where('user_id', $request->murid_id)->orderBy('created_at', 'asc')->limit(30)->get();
+            $data = Presensi::select('presensis.*', 'users.name as nama_murid')->join('users', 'presensis.user_id', '=', 'users.id')->where('user_id', $request->murid_id)->orderBy('created_at', 'desc')->limit(30)->get();
 
             if (count($data) > 0) {
+
+                foreach ($data as $key => $value) {
+                    
+                    $data_presensi[] = array(
+                        'id'            => $value->id,
+                        'nama_murid'    => $value->nama_murid,
+                        'status_sebagai' => ($value->status_sebagai == 1 ? 'Guru': 'Murid'),
+                        'tanggal_masuk' => $value->tanggal_masuk,
+                        'waktu_masuk'   => date('H:i', strtotime($value->tanggal_masuk)),
+                        'status_masuk'  => ($value->status_presensi == 1 ? 'Tepat Waktu' : 'Telat'),
+                        'tanggal_izin'  => $value->tanggal_izin,
+                        'alasan_izin'   => $value->alasan_izin,
+                        'kode_jadwal'   => base64_decode($value->kode_jadwal_presensi),
+                        'created_at'    => $value->created_at,
+                    );
+
+                }
+
                 $response = [
                     'status' => 'success',
-                    'data'   => $data,
+                    'data'   => $data_presensi,
                 ];
             } else {
                 $response = [

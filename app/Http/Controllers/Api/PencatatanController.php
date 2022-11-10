@@ -16,7 +16,7 @@ class PencatatanController extends Controller
         if (auth()->guard('api')->check()) {
 
             $user_id = auth()->guard('api')->user()->id;
-            $data = Pencatatan::select('pencatatans.*', 'users.name as nama_guru', 'alqurans.nama_surah as nama_surah')->join('users', 'pencatatans.guru_id', '=', 'users.id')->join('alqurans', 'pencatatans.no_surah', '=', 'alqurans.no_surah')->where('murid_id', $user_id)->whereMonth('tanggal', date('m'))->limit(30)->get();
+            $data = Pencatatan::select('pencatatans.*', 'users.name as nama_guru', 'alqurans.nama_surah as nama_surah')->join('users', 'pencatatans.guru_id', '=', 'users.id')->join('alqurans', 'pencatatans.no_surah', '=', 'alqurans.no_surah')->where('murid_id', $user_id)->whereMonth('tanggal', date('m'))->orderBy('created_at', 'desc')->limit(30)->get();
             $nama_murid = DB::table('users')->select('users.name')->where('id', $user_id)->first();
             
             if (count($data) > 0) {
@@ -32,6 +32,7 @@ class PencatatanController extends Controller
                     }
                     
                     $data_pct[] = array(
+                        'id'            => $value->id,
                         'nama_murid'    => $nama_murid->name,
                         'nama_guru'     => $value->nama_guru,
                         'nama_surah'    => $value->nama_surah,
@@ -73,7 +74,7 @@ class PencatatanController extends Controller
         if (auth()->guard('api')->check()) {
 
             $user_id = auth()->guard('api')->user()->id;
-            $data = Pencatatan::select('pencatatans.*', 'users.name as nama_murid', 'alqurans.nama_surah as nama_surah')->join('users', 'pencatatans.murid_id', '=', 'users.id')->join('alqurans', 'pencatatans.no_surah', '=', 'alqurans.no_surah')->where('murid_id', $request->murid_id)->whereMonth('tanggal', date('m'))->get();
+            $data = Pencatatan::select('pencatatans.*', 'users.name as nama_murid', 'alqurans.nama_surah as nama_surah')->join('users', 'pencatatans.murid_id', '=', 'users.id')->join('alqurans', 'pencatatans.no_surah', '=', 'alqurans.no_surah')->where('murid_id', $request->murid_id)->whereMonth('tanggal', date('m'))->orderBy('created_at', 'desc')->limit(30)->get();
             
             if (count($data) > 0) {
                 
@@ -89,6 +90,7 @@ class PencatatanController extends Controller
                     }
                     
                     $data_pct[] = array(
+                        'id'            => $value->id,
                         'nama_murid'    => $value->nama_murid,
                         'nama_guru'     => $guru->name,
                         'nama_surah'    => $value->nama_surah,
