@@ -106,92 +106,106 @@ class PresensiController extends Controller
         
         if (auth()->guard('api')->check()) {
 
-            $getKodeJadwal = JadwalPresensi::whereDate('tanggal_presensi', date('Y-m-d', strtotime($request->tanggal_masuk)))->where('status', 0)->first();
+            $getKodeJadwal = JadwalPresensi::whereDate('tanggal_awal', date('Y-m-d', strtotime($request->tanggal_masuk)))->where('status', 0)->first();
             
-            if ($getKodeJadwal != "" || $getKodeJadwal != null) {
+            if ( date('d-m-Y', strtotime($request->tanggal_masuk)) == date('d-m-Y', strtotime($getKodeJadwal->tanggal_akhir))) {
 
-                $kode_presensi = base64_decode($getKodeJadwal->kode_presensi);
+                if ($getKodeJadwal != "" || $getKodeJadwal != null) {
+
+                    $kode_presensi = base64_decode($getKodeJadwal->kode_presensi);
+                    
+                    if ($kode_presensi == $request->kode_jadwal_presensi) {
+    
+                        DB::beginTransaction();
+                        try {
+    
+                            $user_id = auth()->guard('api')->user()->id;
+                            $user = auth()->guard('api')->user();
+    
+                            $waktu_presensi = date('H', strtotime($request->tanggal_masuk));
+                            $waktu_akhir_jadwal = date('H', strtotime($getKodeJadwal->tanggal_akhir));
+            
+                            if ($waktu_akhir_jadwal >= $waktu_presensi) {
+    
+                                $presensi = new Presensi;
+                                $presensi->user_id          = $user_id;
+                                $presensi->status_user      = $user->status;
+                                $presensi->status_presensi  = 1;
+                                $presensi->tanggal_masuk    = $request->tanggal_masuk;
+                                $presensi->tanggal_izin     = $request->tanggal_izin;
+                                $presensi->alasan_izin      = $request->alasan_izin;
+                                $presensi->kode_jadwal_presensi = base64_encode($request->kode_jadwal_presensi);
                 
-                if ($kode_presensi == $request->kode_jadwal_presensi) {
-
-                    DB::beginTransaction();
-                    try {
-
-                        $user_id = auth()->guard('api')->user()->id;
-                        $user = auth()->guard('api')->user();
-
-                        $waktu_presensi = date('H', strtotime($request->tanggal_masuk));
-        
-                        if ($waktu_presensi >= date('H')) {
-
-                            $presensi = new Presensi;
-                            $presensi->user_id          = $user_id;
-                            $presensi->status_user      = $user->status;
-                            $presensi->status_presensi  = 1;
-                            $presensi->tanggal_masuk    = $request->tanggal_masuk;
-                            $presensi->tanggal_izin     = $request->tanggal_izin;
-                            $presensi->alasan_izin      = $request->alasan_izin;
-                            $presensi->kode_jadwal_presensi = base64_encode($request->kode_jadwal_presensi);
-            
-                            $presensi->save();
-                            DB::commit();
-            
-                            $response = [
-                                'status'    => 'success',
-                                'message'   => 'Data Berhasil disimpan',
-                                'data'      => $presensi,
-                            ];
-
-                        } else {
-
-                            $presensi = new Presensi;
-                            $presensi->user_id          = $user_id;
-                            $presensi->status_user      = $user->status;
-                            $presensi->status_presensi  = 2;
-                            $presensi->tanggal_masuk    = $request->tanggal_masuk;
-                            $presensi->tanggal_izin     = $request->tanggal_izin;
-                            $presensi->alasan_izin      = $request->alasan_izin;
-                            $presensi->kode_jadwal_presensi = base64_encode($request->kode_jadwal_presensi);
-            
-                            $presensi->save();
-                            DB::commit();
+                                $presensi->save();
+                                DB::commit();
+                
+                                $response = [
+                                    'status'    => 'success',
+                                    'message'   => 'Data Berhasil disimpan',
+                                    'data'      => $presensi,
+                                ];
+    
+                            } else {
+    
+                                $presensi = new Presensi;
+                                $presensi->user_id          = $user_id;
+                                $presensi->status_user      = $user->status;
+                                $presensi->status_presensi  = 2;
+                                $presensi->tanggal_masuk    = $request->tanggal_masuk;
+                                $presensi->tanggal_izin     = $request->tanggal_izin;
+                                $presensi->alasan_izin      = $request->alasan_izin;
+                                $presensi->kode_jadwal_presensi = base64_encode($request->kode_jadwal_presensi);
+                
+                                $presensi->save();
+                                DB::commit();
+                
+                                $response = [
+                                    'status'    => 'success',
+                                    'message'   => 'Data Berhasil disimpan, tapi anda sudah telat',
+                                    'data'      => $presensi,
+                                ];
+                            } 
+                           
+                        } catch (Exception $e) {
+                            DB::rollback();
             
                             $response = [
-                                'status'    => 'success',
-                                'message'   => 'Data Berhasil disimpan, tapi anda sudah telat',
-                                'data'      => $presensi,
+                                'status'  => 'failed',
+                                'message' => $e->getMessage(),
                             ];
-                        } 
-                       
-                    } catch (Exception $e) {
-                        DB::rollback();
-        
+                        }
+                    } else {
                         $response = [
                             'status'  => 'failed',
-                            'message' => $e->getMessage(),
+                            'message' => 'Kode presensi sudah tidak dapat digunakan!',
                         ];
                     }
-                } else {
-                    $response = [
-                        'status'  => 'failed',
-                        'message' => 'Kode presensi sudah tidak dapat digunakan!',
-                    ];
-                }
+    
+               } else {
+    
+                $response = [
+                    'status'  => 'failed',
+                    'message' => 'Untuk QR Code presensi sudah expired',
+                ];
+    
+               }
 
-           } else {
+            } else {
 
-            $response = [
-                'status'  => 'failed',
-                'message' => 'Untuk QR Code presensi sudah expired',
-            ];
+                $response = [
+                    'status'  => 'failed',
+                    'message' => 'Untuk presensi tanggal tersebut tidak ada!',
+                ];
+    
+               }
 
-           }
-            
-        } else {
+            } else {
+
             $response = [
                 'status'  => 'failed',
                 'message' => 'Mohon untuk login terlebih dahulu!'
             ];
+
         }
 
         return response()->json($response, 200);

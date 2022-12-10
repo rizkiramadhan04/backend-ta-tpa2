@@ -35,7 +35,7 @@
                             <th>Nama Kegiatan</th>
                             <th>Tanggal Mulai</th>
                             <th>Tanggal Berakhir</th>
-                            <th>BarCode</th>
+                            <th>QR Code</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -51,6 +51,10 @@
                                 <td>{{ date('d-m-Y H:i', strtotime($obj->tanggal_akhir)) }}</td>
                                 <td width="20">{!! DNS2D::getBarcodeHTML(base64_decode($obj->kode_presensi), 'QRCODE') !!}</td>
                                 <td>
+                                    <a href="{{ route('admin.presensi-pdf', $obj->id) }}" class="btn btn-success">
+                                        <i class="fa-solid fa-download"></i>
+                                    </a>
+
                                     <form action="{{ route('admin.presensi-delete', $obj->id) }}" method="post"
                                         class="d-inline">
                                         @csrf

@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use App\Models\Presensi;
+use PDF;
 use Illuminate\Http\Request;
 use App\Models\JadwalPresensi;
+use App\Exports\PresensiExport;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
-use App\Exports\PresensiExport;
-use App\Models\User;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Validator;
 
 class PresensiController extends Controller
 {
@@ -53,7 +54,8 @@ class PresensiController extends Controller
             
             $data                   = new JadwalPresensi;
             $data->nama_kegiatan    = $request->nama_kegiatan;
-            $data->tanggal_presensi     = date('Y-m-d H:i', strtotime($request->tanggal_awal));
+            $data->tanggal_awal     = date('Y-m-d H:i', strtotime($request->tanggal_awal));
+            $data->tanggal_akhir    = date('Y-m-d H:i', strtotime($request->tanggal_akhir));
             $data->kode_presensi    = base64_encode($kode_presensi);
 
             $data->save();
@@ -96,4 +98,17 @@ class PresensiController extends Controller
         $param = array('id' => $id, 'tanggal_awal' => $request->tanggal_awal, 'tanggal_akhir' => $request->tanggal_akhir);
         return Excel::download(new PresensiExport($param), 'Presensi_'.$nama_user->name.'.xlsx');
     }
+
+    // export PDF
+    public function exportPDF($id) {
+       
+        $data = JadwalPresensi::where('id', $id)->first();
+
+        // dd($data);
+  
+        $pdf = PDF::loadView('admin.export.presensi_pdf', ['data' => $data]);
+        
+        return $pdf->download('presensi_'.date('d-m-Y H:i', strtotime($data->tanggal_masuk)).'.pdf');
+        
+      }
 }

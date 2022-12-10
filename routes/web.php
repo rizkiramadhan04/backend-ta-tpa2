@@ -72,6 +72,7 @@ Route::group(['middleware' => ['web', 'auth', 'admin']], function () {
     Route::post('/presensi-create', 'Admin\PresensiController@create')->name('admin.presensi-create');
     Route::get('/presensi-detail/{id}', 'Admin\PresensiController@detail')->name('admin.presensi-detail');
     Route::post('/presensi-delete/{id}', 'Admin\PresensiController@delete')->name('admin.presensi-delete');
+    Route::get('/presensi-pdf/{id}', 'Admin\PresensiController@exportPDF')->name('admin.presensi-pdf');
     
     //Export Murid
     Route::post('/export-hafalan/{id}', 'Admin\MuridController@exportHafalan')->name('admin.export-hafalan');
