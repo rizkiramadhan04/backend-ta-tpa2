@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('title', 'Data Murid')
 @section('content')
-    <div class="text-center">
+    <div class="container-fluid text-center">
 
         @if (Session::has('error'))
             @if ($message = Session::get('error'))

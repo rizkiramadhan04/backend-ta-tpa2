@@ -108,7 +108,7 @@ class PresensiController extends Controller
   
         $pdf = PDF::loadView('admin.export.presensi_pdf', ['data' => $data]);
         
-        return $pdf->download('presensi_'.date('d-m-Y H:i', strtotime($data->tanggal_masuk)).'.pdf');
+        return $pdf->download('jadwal_presensi_'.date('d-m-Y', strtotime($data->tanggal_awal)).'.pdf');
         
       }
 }

@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('title', 'Data Pembayaran')
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
 
         @if (Session::has('error'))
             @if ($message = Session::get('error'))
