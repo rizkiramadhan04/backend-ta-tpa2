@@ -118,17 +118,20 @@ class UserController extends Controller
             'no_hp'     => 'required',
             'status'    => 'required',
             'alamat'    => 'required',
+            'tingkatan' => 'required',
         ],[
             'name.required'      => 'Nama user belum diisi',
             'email.required'     => 'Email belum diisi',
             'email.email'        => 'Mohon masukan email yang benar',
             'tgl_lahir.required' => 'Tanggal Lahir belum Diisi',
-            'no_hp.required'     => ' Handphone belum diisi',
+            'no_hp.required'     => 'No Handphone belum diisi',
             'status.required'    => 'Status belum diisi',
             'alamat.required'    => 'Alamat belum diisi',
+            'tingkatan.required' => 'Tingkatan belum diisi',
         ]);
 
         if ($validator->fails()) {
+            // dd($validator->errors());
             return redirect()->route('admin.user-update-page', $id)->withErrors($validator)->withInput();
         }
 
@@ -150,11 +153,12 @@ class UserController extends Controller
             // dd($user);
 
             DB::commit();
-            return redirect()->route('user');
+            return redirect()->route('admin.murid')->with(['success', 'Berhasil mengubah data!']);
 
         } catch (Exception $e) {
+            dd($e->getMessage());
             DB::rollBack();
-            return redirect()->route('admin.user-create-page')->withErrors($e->getMessage());
+            return redirect()->route('admin.user-update-page', $id)->withErrors($e->getMessage());
         }
     }
 

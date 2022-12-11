@@ -103,8 +103,6 @@ class PresensiController extends Controller
     public function exportPDF($id) {
        
         $data = JadwalPresensi::where('id', $id)->first();
-
-        // dd($data);
   
         $pdf = PDF::loadView('admin.export.presensi_pdf', ['data' => $data]);
         

@@ -70,84 +70,84 @@
                                 Hari</span></h4>
                         <div class="progress mb-4">
                             <div class="progress-bar bg-danger" role="progressbar"
-                                style="width: {{ ($dataPresensi['januari'] / 30) * 100 }}%" aria-valuenow="20"
+                                style="width: {{ ($dataPresensi['januari'] / 30) * 3 * 100 }}%" aria-valuenow="20"
                                 aria-valuemin="0" aria-valuemax=""></div>
                         </div>
                         <h4 class="small font-weight-bold">Februari <span
                                 class="float-right">{{ $dataPresensi['februari'] }} Hari</span></h4>
                         <div class="progress mb-4">
                             <div class="progress-bar bg-warning" role="progressbar"
-                                style="width: {{ ($dataPresensi['februari'] / 30) * 100 }}%" aria-valuenow="40"
+                                style="width: {{ ($dataPresensi['februari'] / 30) * 3 * 100 }}%" aria-valuenow="40"
                                 aria-valuemin="0" aria-valuemax=""></div>
                         </div>
                         <h4 class="small font-weight-bold">Maret <span class="float-right">{{ $dataPresensi['maret'] }}
                                 Hari</span></h4>
                         <div class="progress mb-4">
                             <div class="progress-bar" role="progressbar"
-                                style="width: {{ ($dataPresensi['maret'] / 30) * 100 }}%" aria-valuenow="60"
+                                style="width: {{ ($dataPresensi['maret'] / 30) * 3 * 100 }}%" aria-valuenow="60"
                                 aria-valuemin="0" aria-valuemax=""></div>
                         </div>
                         <h4 class="small font-weight-bold">April <span class="float-right">{{ $dataPresensi['april'] }}
                                 Hari</span></h4>
                         <div class="progress mb-4">
                             <div class="progress-bar bg-info" role="progressbar"
-                                style="width: {{ ($dataPresensi['april'] / 30) * 100 }}%" aria-valuenow="80"
+                                style="width: {{ ($dataPresensi['april'] / 30) * 3 * 100 }}%" aria-valuenow="80"
                                 aria-valuemin="0" aria-valuemax=""></div>
                         </div>
                         <h4 class="small font-weight-bold">Mei <span class="float-right">{{ $dataPresensi['mei'] }}
                                 Hari</span></h4>
                         <div class="progress mb-4">
                             <div class="progress-bar bg-info" role="progressbar"
-                                style="width: {{ ($dataPresensi['mei'] / 30) * 100 }}%" aria-valuenow="80"
+                                style="width: {{ ($dataPresensi['mei'] / 30) * 3 * 100 }}%" aria-valuenow="80"
                                 aria-valuemin="0" aria-valuemax=""></div>
                         </div>
                         <h4 class="small font-weight-bold">Juni <span class="float-right">{{ $dataPresensi['juni'] }}
                                 Hari</span></h4>
                         <div class="progress mb-4">
                             <div class="progress-bar bg-success" role="progressbar"
-                                style="width: {{ ($dataPresensi['juni'] / 30) * 100 }}%" aria-valuenow="" aria-valuemin="0"
-                                aria-valuemax=""></div>
+                                style="width: {{ ($dataPresensi['juni'] / 30) * 3 * 100 }}%" aria-valuenow=""
+                                aria-valuemin="0" aria-valuemax=""></div>
                         </div>
                         <h4 class="small font-weight-bold">Juli <span class="float-right">{{ $dataPresensi['juli'] }}
                                 Hari</span></h4>
                         <div class="progress mb-4">
                             <div class="progress-bar bg-success" role="progressbar"
-                                style="width: {{ ($dataPresensi['juli'] / 30) * 100 }}%" aria-valuenow="" aria-valuemin="0"
-                                aria-valuemax=""></div>
+                                style="width: {{ ($dataPresensi['juli'] / 30) * 3 * 100 }}%" aria-valuenow=""
+                                aria-valuemin="0" aria-valuemax=""></div>
                         </div>
                         <h4 class="small font-weight-bold">Agustus <span class="float-right">{{ $dataPresensi['agustus'] }}
                                 Hari</span></h4>
                         <div class="progress mb-4">
                             <div class="progress-bar bg-success" role="progressbar"
-                                style="width: {{ ($dataPresensi['agustus'] / 30) * 100 }}%" aria-valuenow=""
+                                style="width: {{ ($dataPresensi['agustus'] / 30) * 3 * 100 }}%" aria-valuenow=""
                                 aria-valuemin="0" aria-valuemax=""></div>
                         </div>
                         <h4 class="small font-weight-bold">September <span
                                 class="float-right">{{ $dataPresensi['september'] }} Hari</span></h4>
                         <div class="progress mb-4">
                             <div class="progress-bar bg-success" role="progressbar"
-                                style="width: {{ ($dataPresensi['september'] / 30) * 100 }}%" aria-valuenow=""
+                                style="width: {{ ($dataPresensi['september'] / 30) * 3 * 100 }}%" aria-valuenow=""
                                 aria-valuemin="0" aria-valuemax=""></div>
                         </div>
                         <h4 class="small font-weight-bold">Oktober <span
                                 class="float-right">{{ $dataPresensi['oktober'] }} Hari</span></h4>
                         <div class="progress mb-4">
                             <div class="progress-bar bg-success" role="progressbar"
-                                style="width: {{ ($dataPresensi['oktober'] / 30) * 100 }}%" aria-valuenow=""
+                                style="width: {{ ($dataPresensi['oktober'] / 30) * 3 * 100 }}%" aria-valuenow=""
                                 aria-valuemin="0" aria-valuemax=""></div>
                         </div>
                         <h4 class="small font-weight-bold">November <span
                                 class="float-right">{{ $dataPresensi['november'] }} Hari</span></h4>
                         <div class="progress mb-4">
                             <div class="progress-bar bg-success" role="progressbar"
-                                style="width: {{ ($dataPresensi['november'] / 30) * 100 }}%" aria-valuenow=""
+                                style="width: {{ ($dataPresensi['november'] / 30) * 3 * 100 }}%" aria-valuenow=""
                                 aria-valuemin="0" aria-valuemax=""></div>
                         </div>
                         <h4 class="small font-weight-bold">Desember <span
                                 class="float-right">{{ $dataPresensi['desember'] }} Hari</span></h4>
                         <div class="progress mb-4">
                             <div class="progress-bar bg-success" role="progressbar"
-                                style="width: {{ ($dataPresensi['desember'] / 30) * 100 }}%" aria-valuenow="10"
+                                style="width: {{ ($dataPresensi['desember'] / 30) * 3 * 100 }}%" aria-valuenow="10"
                                 aria-valuemin="0" aria-valuemax="30"></div>
                         </div>
                     </div>

@@ -3,22 +3,22 @@
 @section('content')
     <div class="container-fluid">
 
-         @if(Session::has('error'))
-		    @if ($message = Session::get('error'))
-		    <div class="alert alert-danger alert-block" style="width: 100%;display: block;">
-		    <button type="button" class="close" data-dismiss="alert">×</button> 
-			    <strong>{{ $message }}</strong>
-		    </div>
-		    @endif
-	    @endif
-        @if(Session::has('success'))
-		    @if ($message = Session::get('success'))
-		    <div class="alert alert-success alert-block" style="width: 100%;display: block;">
-		    <button type="button" class="close" data-dismiss="alert">×</button> 
-			    <strong>{{ $message }}</strong>
-		    </div>
-		    @endif
-	    @endif
+        @if (Session::has('error'))
+            @if ($message = Session::get('error'))
+                <div class="alert alert-danger alert-block" style="width: 100%;display: block;">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <strong>{{ $message }}</strong>
+                </div>
+            @endif
+        @endif
+        @if (Session::has('success'))
+            @if ($message = Session::get('success'))
+                <div class="alert alert-success alert-block" style="width: 100%;display: block;">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <strong>{{ $message }}</strong>
+                </div>
+            @endif
+        @endif
 
         <div class="d-sm-flex justify-content-between mb-4 text-center">
             <h1 class="h3 mb-0 text-gray-800">Edit User</h1>
@@ -83,19 +83,25 @@
                     </div>
                 @enderror
             </div>
+            <div class="form-group col-xl-6 col-md-4">
+                <label for="alamat">Alamat</label>
+                <textarea type="text" class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat"
+                    placeholder="Jl. Gotong Royong ..." value="{{ $user->alamat }}">{{ $user->alamat }}</textarea>
+                @error('alamat')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
             <div class="form-group col-xl-6 col-md-4 tingkatan">
                 <label for="tingkatan">Tingkatan </label>
                 <select class="form-control @error('tingkatan') is-invalid @enderror" id="tingkatan" name="tingkatan">
-                    <?php if ($user->tingkatan != '') { ?>
-                    <option value="Awal">Awal</option>
-                    <option value="Lanjut">Lanjut</option>
-                    <option value="Lancar">Lancar</option>
-                    <?php } else { ?>
+
                     <option value="">-- Pilih Tingkatan --</option>
-                    <option value="Awal">Awal</option>
-                    <option value="Lanjut">Lanjut</option>
-                    <option value="Lancar">Lancar</option>
-                    <?php } ?>
+                    <option value="Awal" @if ($user->tingkatan == 'Awal') selected @endif>Awal</option>
+                    <option value="Lanjut" @if ($user->tingkatan == 'Lanjut') selected @endif>Lanjut</option>
+                    <option value="Lancar" @if ($user->tingkatan == 'Lancar') selected @endif>Lancar</option>
+
                 </select>
                 @error('tingkatan')
                     <div class="invalid-feedback">
