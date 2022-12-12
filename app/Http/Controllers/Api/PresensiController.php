@@ -117,7 +117,7 @@ class PresensiController extends Controller
 
                         $kode_presensi = base64_decode($getKodeJadwal->kode_presensi);
                         
-                        if ($kode_presensi == $request->kode_jadwal_presensi) {
+                        if ($kode_presensi == base64_decode($request->kode_jadwal_presensi)) {
         
                             DB::beginTransaction();
                             try {
@@ -143,27 +143,15 @@ class PresensiController extends Controller
                     
                                     $response = [
                                         'status'    => 'success',
-                                        'message'   => 'Data Berhasil disimpan',
+                                        'message'   => 'Presensi Berhasil disimpan',
                                         'data'      => $presensi,
                                     ];
         
                                 } else {
-        
-                                    $presensi = new Presensi;
-                                    $presensi->user_id          = $user_id;
-                                    $presensi->status_user      = $user->status;
-                                    $presensi->status_presensi  = 2;
-                                    $presensi->tanggal_masuk    = $request->tanggal_masuk;
-                                    $presensi->tanggal_izin     = $request->tanggal_izin;
-                                    $presensi->alasan_izin      = $request->alasan_izin;
-                                    $presensi->kode_jadwal_presensi = base64_encode($request->kode_jadwal_presensi);
-                    
-                                    $presensi->save();
-                                    DB::commit();
                     
                                     $response = [
-                                        'status'    => 'success',
-                                        'message'   => 'Data Berhasil disimpan, tapi anda sudah telat',
+                                        'status'    => 'failed',
+                                        'message'   => 'Anda sudah telat, dan tidak dapat melakukan presensi',
                                         'data'      => $presensi,
                                     ];
                                 } 
@@ -187,7 +175,7 @@ class PresensiController extends Controller
         
                     $response = [
                         'status'  => 'failed',
-                        'message' => 'Untuk QR Code presensi tidak ada!',
+                        'message' => 'Jadwal presensi tidak ada!',
                     ];
         
                    }

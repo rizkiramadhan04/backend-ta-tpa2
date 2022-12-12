@@ -70,7 +70,7 @@ class PembayaranController extends Controller
                 'jumlah.required'            => 'Jumlah belum diisi!',
                 'no_rek.required'            => 'Nomor rekening belum diisi!',
                 'jenis_pembayaran.required'  => 'Jenis pembayaran belum diisi!',
-                'gambar.required'            => 'Gambar belum diisi!',
+                'gambar.required'            => 'Gambar masih kosong!',
             ]);
     
             if ($validator->fails()) {
