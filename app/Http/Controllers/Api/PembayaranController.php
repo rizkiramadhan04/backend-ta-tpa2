@@ -127,12 +127,136 @@ class PembayaranController extends Controller
             }
         } else {
             $response = [
-                'status' => 'failed',
+                'status'  => 'failed',
                 'message' => 'Mohon untuk login terlebih dahulu!',
             ];
         }
 
         return response()->json($response, 200);
         
+    }
+
+    public function getDataById($id) {
+        $data = Pembayaran::where('id', $id)->first();
+
+        if ($data) {
+
+                    $data_arr = array(
+                        'id'        => $data->id,
+                        'user_id'   => $data->user_id,
+                        'no_hp'     => $data->no_hp,
+                        'jumlah'    => $data->jumlah,
+                        'no_rek'    => $data->no_rek,
+                        'jenis_pembayaran' => $data->jenis_pembayaran,
+                        'status'    => $data->status,
+                        'gambar'    => base64_decode($data->gambar),
+                    );
+            
+
+            $response = [
+                'status' => 'success',
+                'data'   => $data_arr,
+            ];
+        } else {
+            $response = [
+                'status' => 'failed',
+                'data'   => [],
+            ];
+        }
+
+        return response()->json($response, 200);
+    }
+
+    public function updateData(Request $request) {
+
+        if (auth()->guard('api')->check()) {
+
+            $validator = Validator::make($request->all(), [
+                'no_hp'               => 'required',
+                'jumlah'              => 'required',
+                'no_rek'              => 'required',
+                'jenis_pembayaran'    => 'required',
+                'gambar'              => 'required|mimes:jpg,JPG,jpeg,JPEG,png,PNG',
+            ], [
+                'no_hp.required'             => 'Nomor HP belum diisi!',
+                'jumlah.required'            => 'Jumlah belum diisi!',
+                'no_rek.required'            => 'Nomor rekening belum diisi!',
+                'jenis_pembayaran.required'  => 'Jenis pembayaran belum diisi!',
+                'gambar.required'            => 'Gambar masih kosong!',
+            ]);
+    
+            if ($validator->fails()) {
+                return response()->json([
+                    'status'  => 'error',
+                    'message' => $validator->errors(),
+                ]);
+            }
+            
+            DB::beginTransaction();
+            try {
+                
+                $user_id = auth()->guard('api')->user()->id;
+
+               $filename = "";
+                if ($request->has('gambar')) {
+                    $filename = 'pembayaran_' . mt_rand(100000, 999999) . '.' . $request->gambar->extension();
+                    $request->gambar->move(public_path('/storage/pembayaran/'), $filename);
+                }
+                else {
+                    DB::rollback();
+        
+                    $response = [
+                        'error' => 'File yang anda upload salah'
+                    ];
+        
+                    return response()->json($response, 200);
+                    }
+
+                $pembayaran = Pembayaran::where('id', $request->pembayaran_id)
+                ->update([
+
+                    'user_id'          => $user_id,
+                    'no_hp'            => $request->no_hp,
+                    'jumlah'           => $request->jumlah,
+                    'no_rek'           => $request->no_rek,
+                    'jenis_pembayaran' => $request->jenis_pembayaran,
+                    'status'           => 0,
+                    'gambar'           => base64_encode($filename),
+
+                ]);
+
+                DB::commit();
+                $response = [
+                    'status'   => 'success',
+                    'message'  => 'Berhasil diubah!',
+                ];
+
+            } catch (Exception $e) {
+                DB::rollback();
+                $response = [
+                    'satus'   => 'failed',
+                    'message' => $e->getMessage(),
+                ];
+            }
+        } else {
+            $response = [
+                'status' => 'failed',
+                'message' => 'Mohon untuk login terlebih dahulu!',
+            ];
+        }
+
+        return response()->json($response, 200);
+    }
+
+    public function delete(Request $request) {
+        $data = Pembayaran::find($request->id)->first();
+        $data->delete();
+
+        $response = [
+            'status' => 'success',
+            'message' => 'Berhasil hapus data!'
+        ];
+
+        return response()->json($response, 200);
     }
 }

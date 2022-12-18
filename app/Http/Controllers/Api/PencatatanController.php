@@ -69,6 +69,35 @@ class PencatatanController extends Controller
         return response()->json($response, 200);
     }
 
+
+    public function getMurid() {
+        $data = DB::table('users')->where('status', '0')->get();
+
+        if ($data) {
+            
+            foreach ($data as $row) {
+                $data_ar[] = array(
+                    
+                    'id' => $row->id,
+                    'nama_murid' => $row->name,
+                    'tingkatan' => $row->tingkatan,
+                    
+                );
+            }
+            $response = [
+                'status' => 'success',
+                'data' => $data_ar,
+            ];
+        } else {
+            $response = [
+                'status' => 'error',
+                'data' => [],
+            ];
+        }
+
+        return response()->json($response, 200);
+    }
+
     public function getDataGuru(Request $request) {
 
         if (auth()->guard('api')->check()) {
@@ -205,6 +234,120 @@ class PencatatanController extends Controller
                 'message' => 'Mohon untuk login terlebih dahulu!'
             ];
         }
+
+        return response()->json($response, 200);
+    }
+
+    public function getDataById($id) {
+        $data = Pencatatan::where('id', $id)->first();
+
+        if ($data) {
+            $response = [
+                'status' => 'success',
+                'data' => $data,
+            ];
+        } else {
+            $response = [
+                'status' => 'failed',
+                'data' => [],
+            ];
+        }
+
+        return response()->json($response, 200);
+    }
+
+    public function updateData(Request $request) {
+
+        if (auth()->guard('api')->check()) {
+            
+            $validator = Validator::make($request->all(), [
+                'murid_id'    => 'required',
+                'jilid'       => 'required',
+                'halaman'     => 'required',
+                'hasil'       => 'required',
+                'tanggal'     => 'required',
+                'jenis_kitab' => 'required',
+            ], [
+                'murid_id.required'     => 'Nama murid belum diisi!',
+                'jilid.required'        => 'Jilid belum diisi!',
+                'halaman.required'      => 'Halaman belum diisi!',
+                'hasil.required'        => 'Hasil belum diisi!',
+                'tanggal.required'      => 'Tanggal belum diisi!',
+                'jenis_kitab.required'  => 'Jenis kitab belum diisi!',
+            ]);
+    
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $validator->errors(),
+                ]);
+            }
+            
+            DB::beginTransaction();
+            try {
+                
+                $guru_id = auth()->guard('api')->user()->id;
+                $guru = DB::table('users')->where('id', $guru_id)->first();
+                
+                if ($guru->status == 1) {
+
+                    $pencatatan = Pencatatan::where('id', $request->pencatatan_id)
+                    ->update([
+                        'murid_id'    => $request->murid_id,
+                        'no_surah'    => $request->no_surah,
+                        'no_ayat'     => $request->no_ayat,
+                        'no_iqro'     => $request->no_iqro,
+                        'jilid'       => $request->jilid,
+                        'halaman'     => $request->halaman,
+                        'guru_id'     => $guru_id,
+                        'hasil'       => $request->hasil,
+                        'tanggal'     => $request->tanggal,
+                        'jenis_kitab' => $request->jenis_kitab,
+                        'juz'         => $request->juz,
+                    ]);
+
+                    DB::commit();
+
+                    $response = [
+                        'status'   => 'success',
+                        'message'  => 'Data berhasil ubah!',
+                    ];
+                } else {
+                    $response = [
+                        'status'   => 'failed',
+                        'message'  => 'Anda buka guru pengajar!',
+                    ];
+                }
+
+            } catch (Exception $e) {
+
+                DB::rollback();
+                $response = [
+                    'status'  => 'failed',
+                    'message' => $e->getMessage(),
+                ];
+
+            }
+            
+        } else {
+            $response = [
+                'status'  => 'failed',
+                'message' => 'Mohon untuk login terlebih dahulu!'
+            ];
+        }
+
+        return response()->json($response, 200);
+
+    }
+
+    public function delete($id) {
+        $data = Pencatatan::find($id)->first();
+        $data->delete();
+
+        $response = [
+            'status' => 'success',
+            'message' => 'Berhasil hapus data!'
+        ];
 
         return response()->json($response, 200);
     }
