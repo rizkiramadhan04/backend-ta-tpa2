@@ -55,6 +55,10 @@
                                         <i class="fa fa-eye"></i>
                                     </a>
 
+                                    <a href="{{ route('admin.user-update-page', $obj->id) }}" class="btn btn-info">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+
                                     <form action="#" method="post" class="d-inline">
                                         @csrf
                                         <button class="btn btn-danger">
