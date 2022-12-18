@@ -98,6 +98,28 @@ class PencatatanController extends Controller
         return response()->json($response, 200);
     }
 
+    public function getDataAlquran() {
+
+        $data = DB::table('alqurans')->get();
+
+        if ($data) {
+            
+            $response = [
+                'status' => 'success',
+                'data' => $data,
+            ];
+
+        } else {
+            $response = [
+                'status' => 'error',
+                'data' => [],
+            ];
+        }
+
+        return response()->json($response, 200);
+
+    }
+
     public function getDataGuru(Request $request) {
 
         if (auth()->guard('api')->check()) {

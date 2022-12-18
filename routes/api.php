@@ -42,6 +42,7 @@ Route::delete('/delete-data-hafalan/{id}', 'Api\HafalanController@delete')->name
 
 //pencatatan 
 Route::get('/get-data-murid', 'Api\PencatatanController@getMurid')->name('api.get-data-murid');
+Route::get('/get-data-alquran', 'Api\PencatatanController@getDataAlquran')->name('api.get-data-alquran');
 Route::post('/get-data-pencatatan', 'Api\PencatatanController@getData')->name('api.get-data-pencatatan');
 Route::post('/get-data-pencatatan-by-guru', 'Api\PencatatanController@getDataGuru')->name('api.get-data-pencatatan-by-guru');
 Route::post('/input-data-pencatatan', 'Api\PencatatanController@inputPencatatan')->name('api.input-data-pencatatan');
