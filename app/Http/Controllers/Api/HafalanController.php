@@ -60,7 +60,9 @@ class HafalanController extends Controller
         
         if (auth()->guard('api')->check()) {
 
-            $data = Hafalan::select('hafalans.*', 'users.name as nama_guru')->join('users', 'hafalans.guru_id', '=', 'users.id')->where('murid_id', $request->murid_id)->orderBy('created_at', 'asc')->limit(30)->get();
+            $guru_id = auth()->guard('api')->user()->id;
+
+            $data = Hafalan::select('hafalans.*', 'users.name as nama_guru')->join('users', 'hafalans.guru_id', '=', 'users.id')->where('guru_id', $guru_id)->orderBy('created_at', 'asc')->limit(30)->get();
     
             if (count($data) > 0) {
 
