@@ -121,7 +121,7 @@ class HafalanController extends Controller
     
             if ($validator->fails()) {
                 return response()->json([
-                    'status' => 'error',
+                    'status' => 'failed',
                     'message' => $validator->errors(),
                 ]);
             }
@@ -202,7 +202,7 @@ class HafalanController extends Controller
     
             if ($validator->fails()) {
                 return response()->json([
-                    'status' => 'error',
+                    'status' => 'failed',
                     'message' => $validator->errors(),
                 ]);
             }

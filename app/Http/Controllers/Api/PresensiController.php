@@ -107,7 +107,37 @@ class PresensiController extends Controller
         if (auth()->guard('api')->check()) {
 
             $user_id = auth()->guard('api')->user()->id;
-            $getKodeJadwal = JadwalPresensi::whereDate('tanggal_awal', date('Y-m-d', strtotime($request->tanggal_masuk)))->where('status', 0)->first();
+            
+            if ($request->izin != null) {
+
+                DB::beginTransaction();
+                try {
+                    $presensi = new Presensi;
+                    $presensi->user_id          = $user_id;
+                    $presensi->status_user      = $user->status;
+                    $presensi->tanggal_izin     = $request->tanggal_izin;
+                    $presensi->alasan_izin      = $request->alasan_izin;
+                    
+                    $presensi->save();
+                    DB::commit();
+
+                    $response = [
+                        'status'    => 'success',
+                        'message'   => 'Izin berhasil disimpan',
+                        'data'      => $presensi,
+                    ];
+
+                } catch (\Exception $e) {
+                    DB::rollback();
+                
+                    $response = [
+                        'status'  => 'failed',
+                        'message' => $e->getMessage(),
+                    ];
+                }
+
+            } else {
+                $getKodeJadwal = JadwalPresensi::whereDate('tanggal_awal', date('Y-m-d', strtotime($request->tanggal_masuk)))->where('status', 0)->first();
             $checkUserPresensi = Presensi::where('user_id', $user_id)->whereDate('tanggal_masuk', date('Y-m-d', strtotime($getKodeJadwal->tanggal_awal)))->first();
             if ( date('d-m-Y', strtotime($request->tanggal_masuk)) == date('d-m-Y', strtotime($getKodeJadwal->tanggal_akhir))) {
 
@@ -117,7 +147,7 @@ class PresensiController extends Controller
 
                         $kode_presensi = base64_decode($getKodeJadwal->kode_presensi);
                         
-                        if ($kode_presensi == base64_decode($request->kode_jadwal_presensi)) {
+                        if ($kode_presensi == $request->kode_jadwal_presensi) {
         
                             DB::beginTransaction();
                             try {
@@ -195,6 +225,7 @@ class PresensiController extends Controller
                 ];
     
                }
+            }
 
             } else {
 
