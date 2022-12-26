@@ -11,14 +11,23 @@ use App\Http\Controllers\Controller;
 
 class PresensiController extends Controller
 {
-    public function getData() {
+    public function getData(Request $request) {
+
+        if($request->jenis_presensi == 'all') {
+            $jenis_presensi = ['0','1'];
+        } else {
+            $jenis_presensi = [$request->jenis_presensi];
+        }  
 
         if (auth()->guard('api')->check()) {
 
+            
             $user_id = auth()->guard('api')->user()->id;
-            $data = Presensi::select('presensis.*', 'users.name as nama_murid')->join('users', 'presensis.user_id', '=', 'users.id')->where('user_id', $user_id)->orderBy('created_at', 'desc')->limit(30)->get();
+            $data = Presensi::query()->select('presensis.*', 'users.name as nama_murid')->join('users', 'presensis.user_id', '=', 'users.id')->where('user_id', $user_id)->whereIn('jenis_presensi', $jenis_presensi)->orderBy('created_at', 'desc')->limit(30)->get();
 
             if (count($data) > 0) {
+
+                $data_presensi = array();
 
                 foreach ($data as $key => $value) {
                     
@@ -114,6 +123,7 @@ class PresensiController extends Controller
                 try {
                     $presensi = new Presensi;
                     $presensi->user_id          = $user_id;
+                    $presensi->jenis_presensi   = 1;
                     $presensi->status_user      = $user->status;
                     $presensi->tanggal_izin     = $request->tanggal_izin;
                     $presensi->alasan_izin      = $request->alasan_izin;
@@ -162,6 +172,7 @@ class PresensiController extends Controller
                                     $presensi = new Presensi;
                                     $presensi->user_id          = $user_id;
                                     $presensi->status_user      = $user->status;
+                                    $presensi->jenis_presensi   = 0;
                                     $presensi->status_presensi  = 1;
                                     $presensi->tanggal_masuk    = $request->tanggal_masuk;
                                     $presensi->tanggal_izin     = $request->tanggal_izin;

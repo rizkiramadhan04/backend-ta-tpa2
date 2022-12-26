@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Validator;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
@@ -129,6 +130,23 @@ class AuthController extends Controller
 
         return response()->json($response);
     
+    }
+
+    public function checkIsLoggedIn(Request $request)
+    {
+        if (Auth::guard('api')->check()) {
+            $response = [
+                'status_login' => true,
+                'message' => '1'
+            ];
+        } else {
+            $response = [
+                'status_login' => false,
+                'message' => '0'
+            ];
+        }
+
+        return response($response, 200);
     }
 
     public function logout(Request $request) {

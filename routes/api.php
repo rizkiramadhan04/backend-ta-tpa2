@@ -22,10 +22,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/login', 'Api\AuthController@login')->name('api.login');
 Route::post('/get-data', 'Api\AuthController@getData')->name('api.get-data');
 Route::post('/update', 'Api\AuthController@update')->name('api.update');
+Route::post('/check-user-login', 'Api\AuthController@checkIsLoggedIn')->name('api.check-user-login');
 Route::post('/logout', 'Api\AuthController@logout')->name('api.logout');
 
 //presensi 
-Route::get('/get-data-presensi', 'Api\PresensiController@getData')->name('api.get-data-presensi');
+Route::post('/get-data-presensi', 'Api\PresensiController@getData')->name('api.get-data-presensi');
 Route::post('/get-data-presensi-by-guru', 'Api\PresensiController@getDataGuru')->name('api.get-data-presensi-by-guru');
 Route::post('/input-data-presensi', 'Api\PresensiController@inputPresensi')->name('api.input-data-presensi');
 Route::get('/get-data-jadwal', 'Api\PresensiController@getJadwalPresensi')->name('api.get-data-jadwal');
