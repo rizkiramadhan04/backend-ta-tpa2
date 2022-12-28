@@ -20,7 +20,8 @@ class PencatatanController extends Controller
             $nama_murid = DB::table('users')->select('users.name')->where('id', $user_id)->first();
             
             if (count($data) > 0) {
-                
+                $data_pct = array();
+
                 foreach ($data as $key => $value) {
 
                     if ($value->hasil == 0) {
@@ -41,10 +42,10 @@ class PencatatanController extends Controller
                         'jilid'         => $value->jilid,
                         'halaman'       => $value->halaman,
                         'hasil'         => $hasil,
-                        'tanggal'       => $value->tanggal,
+                        'tanggal'       => date("d-m-Y", strtotime($value->tanggal)),
                         'jenis_kitab'   => $value->jenis_kitab,
                         'juz'           => $value->juz,
-                        'created_at'    => $value->created_at,
+                        'created_at'    => date("d-m-Y", strtotime($value->created_at)),
                     );
 
                 }
@@ -128,8 +129,8 @@ class PencatatanController extends Controller
             $data = Pencatatan::select('pencatatans.*', 'users.name as nama_murid', 'alqurans.nama_surah as nama_surah')->join('users', 'pencatatans.murid_id', '=', 'users.id')->join('alqurans', 'pencatatans.no_surah', '=', 'alqurans.no_surah')->where('guru_id', $user_id)->whereMonth('tanggal', date('m'))->orderBy('created_at', 'desc')->limit(30)->get();
             
             if (count($data) > 0) {
-                
                 $data_pct = array();
+                
                 foreach ($data as $key => $value) {
                     $guru = DB::table('users')->select('users.name')->where('id', $value->guru_id)->first();
 
@@ -141,7 +142,7 @@ class PencatatanController extends Controller
                         $hasil = 'Lanjut';
                     }
                     
-                    $data_pct[] = [
+                    $data_pct[] = array (
                         'id'            => $value->id,
                         'nama_murid'    => $value->nama_murid,
                         'nama_guru'     => $guru->name,
@@ -151,11 +152,11 @@ class PencatatanController extends Controller
                         'jilid'         => $value->jilid,
                         'halaman'       => $value->halaman,
                         'hasil'         => $hasil,
-                        'tanggal'       => $value->tanggal,
+                        'tanggal'       => date("d-m-Y", strtotime($value->tanggal)),
                         'jenis_kitab'   => $value->jenis_kitab,
                         'juz'           => $value->juz,
-                        'created_at'    => $value->created_at,
-                    ];
+                        'created_at'    => date("d-m-Y", strtotime($value->created_at)),
+                    );
 
                 }
 

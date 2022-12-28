@@ -20,7 +20,8 @@ class HafalanController extends Controller
             $murid = DB::table('users')->select('users.name')->where('id', $user_id)->first();
 
             if (count($data) > 0) {
-
+                $data_hfl = array();
+                
                 foreach ($data as $key => $value) {
  
                     $data_hfl[] = array(
@@ -66,6 +67,7 @@ class HafalanController extends Controller
     
             if (count($data) > 0) {
 
+                $data_hfl = array();
                 foreach ($data as $key => $value) {
                     $murid = DB::table('users')->select('users.name')->where('id', $value->murid_id)->first();
  

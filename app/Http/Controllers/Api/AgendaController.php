@@ -14,9 +14,10 @@ class AgendaController extends Controller
 
         if($data) {
 
+            $agenda = array();
             foreach($data as $row) {
 
-                $response[] = [
+                $agenda[] = [
                     'status'           => 'success',
                     'nama_agenda'      => $row->nama_agenda,
                     'deskripsi_agenda' => $row->deskripsi_agenda,
@@ -24,6 +25,11 @@ class AgendaController extends Controller
                     'gambar_agenda'    => base64_decode($row->gambar),
                 ];
             }
+
+            $response = [
+                'status'  => 'success',
+                'data'    => $agenda,
+            ];
 
         } else {
             $response = [

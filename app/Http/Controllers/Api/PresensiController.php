@@ -23,25 +23,24 @@ class PresensiController extends Controller
 
             
             $user_id = auth()->guard('api')->user()->id;
-            $data = Presensi::query()->select('presensis.*', 'users.name as nama_murid')->join('users', 'presensis.user_id', '=', 'users.id')->where('user_id', $user_id)->whereIn('jenis_presensi', $jenis_presensi)->orderBy('created_at', 'desc')->limit(30)->get();
-
+            $data = Presensi::query()->select('presensis.*', 'users.name as nama')->join('users', 'presensis.user_id', '=', 'users.id')->where('user_id', $user_id)->whereIn('jenis_presensi', $jenis_presensi)->orderBy('created_at', 'desc')->get();
+            // dd($data);
             if (count($data) > 0) {
 
-                $data_presensi = array();
+                // $data_presensi = array();
 
                 foreach ($data as $key => $value) {
                     
-                    $data_presensi[] = array(
+                    $data_presensi[] = array (
                         'id'            => $value->id,
-                        'nama_murid'    => $value->nama_murid,
+                        'nama'          => $value->nama,
                         'status_sebagai' => ($value->status_sebagai == 1 ? 'Guru': 'Murid'),
-                        'tanggal_masuk' => $value->tanggal_masuk,
+                        'tanggal_masuk' => date("d-m-Y", strtotime($value->tanggal_masuk)),
                         'waktu_masuk'   => date('H:i', strtotime($value->tanggal_masuk)),
                         'status_masuk'  => ($value->status_presensi == 1 ? 'Tepat Waktu' : 'Telat'),
-                        'tanggal_izin'  => $value->tanggal_izin,
+                        'tanggal_izin'  => date("d-m-Y", strtotime($value->tanggal_izin)),
                         'alasan_izin'   => $value->alasan_izin,
-                        'kode_jadwal'   => base64_decode($value->kode_jadwal_presensi),
-                        'created_at'    => $value->created_at,
+                        'created_at'    => date("Y-m-d H:i:s", strtotime($row->created_at)),
                     );
 
                 }
@@ -78,15 +77,14 @@ class PresensiController extends Controller
                     
                     $data_presensi[] = array(
                         'id'            => $value->id,
-                        'nama_murid'    => $value->nama_murid,
+                        'nama'          => $value->nama,
                         'status_sebagai' => ($value->status_sebagai == 1 ? 'Guru': 'Murid'),
-                        'tanggal_masuk' => $value->tanggal_masuk,
+                        'tanggal_masuk' => date("d-m-Y", strtotime($value->tanggal_masuk)),
                         'waktu_masuk'   => date('H:i', strtotime($value->tanggal_masuk)),
                         'status_masuk'  => ($value->status_presensi == 1 ? 'Tepat Waktu' : 'Telat'),
-                        'tanggal_izin'  => $value->tanggal_izin,
+                        'tanggal_izin'  => date("d-m-Y", strtotime($value->tanggal_izin)),
                         'alasan_izin'   => $value->alasan_izin,
-                        'kode_jadwal'   => base64_decode($value->kode_jadwal_presensi),
-                        'created_at'    => $value->created_at,
+                        'created_at'    => date("Y-m-d H:i:s", strtotime($row->created_at)),
                     );
 
                 }
