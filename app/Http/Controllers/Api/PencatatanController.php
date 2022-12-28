@@ -129,39 +129,39 @@ class PencatatanController extends Controller
             
             if (count($data) > 0) {
                 
-                // $data_pct = [];
-                // foreach ($data as $key => $value) {
-                //     $guru = DB::table('users')->select('users.name')->where('id', $value->guru_id)->first();
+                $data_pct = array();
+                foreach ($data as $key => $value) {
+                    $guru = DB::table('users')->select('users.name')->where('id', $value->guru_id)->first();
 
-                //     if ($value->hasil == 0) {
-                //         $hasil = 'Mengulang';
-                //     } else if ($value->hasil == 1) {
-                //         $hasil = 'Cukup';
-                //     } else {
-                //         $hasil = 'Lanjut';
-                //     }
+                    if ($value->hasil == 0) {
+                        $hasil = 'Mengulang';
+                    } else if ($value->hasil == 1) {
+                        $hasil = 'Cukup';
+                    } else {
+                        $hasil = 'Lanjut';
+                    }
                     
-                //     $data_pct[] = [
-                //         'id'            => $value->id,
-                //         'nama_murid'    => $value->nama_murid,
-                //         'nama_guru'     => $guru->name,
-                //         'nama_surah'    => $value->nama_surah,
-                //         'no_ayat'       => $value->no_ayat,
-                //         'no_iqro'       => $value->no_iqro,
-                //         'jilid'         => $value->jilid,
-                //         'halaman'       => $value->halaman,
-                //         'hasil'         => $hasil,
-                //         'tanggal'       => $value->tanggal,
-                //         'jenis_kitab'   => $value->jenis_kitab,
-                //         'juz'           => $value->juz,
-                //         'created_at'    => $value->created_at,
-                //     ];
+                    $data_pct[] = [
+                        'id'            => $value->id,
+                        'nama_murid'    => $value->nama_murid,
+                        'nama_guru'     => $guru->name,
+                        'nama_surah'    => $value->nama_surah,
+                        'no_ayat'       => $value->no_ayat,
+                        'no_iqro'       => $value->no_iqro,
+                        'jilid'         => $value->jilid,
+                        'halaman'       => $value->halaman,
+                        'hasil'         => $hasil,
+                        'tanggal'       => $value->tanggal,
+                        'jenis_kitab'   => $value->jenis_kitab,
+                        'juz'           => $value->juz,
+                        'created_at'    => $value->created_at,
+                    ];
 
-                // }
+                }
 
                 $response = [
                     'status' => 'success',
-                    'data'   => $data,
+                    'data'   => $data_pct,
                 ];
             } else {
                 $response = [
