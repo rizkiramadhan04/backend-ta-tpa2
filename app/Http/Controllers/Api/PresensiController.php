@@ -35,10 +35,11 @@ class PresensiController extends Controller
                         'id'            => $value->id,
                         'nama'          => $value->nama,
                         'status_sebagai' => ($value->status_sebagai == 1 ? 'Guru': 'Murid'),
-                        'tanggal_masuk' => date("d-m-Y", strtotime($value->tanggal_masuk)),
-                        'waktu_masuk'   => date('H:i', strtotime($value->tanggal_masuk)),
                         'status_masuk'  => ($value->status_presensi == 1 ? 'Tepat Waktu' : 'Telat'),
-                        'tanggal_izin'  => date("d-m-Y", strtotime($value->tanggal_izin)),
+                        'tanggal_masuk' => ( $value->tanggal_masuk != null ? date("d-m-Y", strtotime($value->tanggal_masuk)) : null),
+                        'waktu_masuk'   => ( $value->tanggal_masuk != null ? date('H:i', strtotime($value->tanggal_masuk)) : null),
+                        'jenis_presensi'=> ( $value->jenis_presensi == 1 ? 'Izin' : 'Presensi'),
+                        'tanggal_izin'  => ( $value->tanggal_izin != null ? date("d-m-Y", strtotime($value->tanggal_izin)) : null),
                         'alasan_izin'   => $value->alasan_izin,
                         'created_at'    => date("Y-m-d H:i:s", strtotime($row->created_at)),
                     );
@@ -79,10 +80,10 @@ class PresensiController extends Controller
                         'id'            => $value->id,
                         'nama'          => $value->nama,
                         'status_sebagai' => ($value->status_sebagai == 1 ? 'Guru': 'Murid'),
-                        'tanggal_masuk' => date("d-m-Y", strtotime($value->tanggal_masuk)),
-                        'waktu_masuk'   => date('H:i', strtotime($value->tanggal_masuk)),
-                        'status_masuk'  => ($value->status_presensi == 1 ? 'Tepat Waktu' : 'Telat'),
-                        'tanggal_izin'  => date("d-m-Y", strtotime($value->tanggal_izin)),
+                        'tanggal_masuk' => ( $value->tanggal_masuk != null ? date("d-m-Y", strtotime($value->tanggal_masuk)) : null),
+                        'waktu_masuk'   => ( $value->tanggal_masuk != null ? date('H:i', strtotime($value->tanggal_masuk)) : null),
+                        'jenis_presensi'=> ( $value->jenis_presensi == 1 ? 'Izin' : 'Presensi'),
+                        'tanggal_izin'  => ( $value->tanggal_izin != null ? date("d-m-Y", strtotime($value->tanggal_izin)) : null),
                         'alasan_izin'   => $value->alasan_izin,
                         'created_at'    => date("Y-m-d H:i:s", strtotime($row->created_at)),
                     );
@@ -110,12 +111,15 @@ class PresensiController extends Controller
     }
 
     public function inputPresensi(Request $request) {
+        dd($request->all());
         
         if (auth()->guard('api')->check()) {
 
             $user_id = auth()->guard('api')->user()->id;
             
             if ($request->izin != null) {
+            
+                $user = auth()->guard('api')->user();
 
                 DB::beginTransaction();
                 try {
