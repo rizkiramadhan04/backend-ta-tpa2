@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\User;
-use App\Exports\PresensiExport;
+use App\Models\Pencatatan;
+use Illuminate\Http\Request;
 use App\Exports\MengajarExport;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PresensiExport;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class GuruController extends Controller
 {
@@ -54,15 +56,19 @@ class GuruController extends Controller
             'desember'  => $desember,
         );
 
-        $data_mengajar = array(
-            
-            'data_mengajar_ulang'  => DB::table('pencatatans')->where('guru_id', $id)->where('hasil', 0)->whereMonth('tanggal', date('m'))->get()->count(),
-            'data_mengajar_cukup'  => DB::table('pencatatans')->where('guru_id', $id)->where('hasil', 1)->whereMonth('tanggal', date('m'))->get()->count(),
-            'data_mengajar_lanjut' => DB::table('pencatatans')->where('guru_id', $id)->where('hasil', 2)->whereMonth('tanggal', date('m'))->get()->count(),
+        $data_mengajar = array(      
+            'data_mengajar_ulang'  => Pencatatan::select('pencatatans.*', 'users.name as nama_user')->join('users', 'pencatatans.murid_id', '=', 'users.id')->where('pencatatans.guru_id', $id)->where('users.tingkatan', 'Awal')->whereMonth('tanggal', date('m'))->get()->count(),
+            'data_mengajar_cukup'  => Pencatatan::select('pencatatans.*', 'users.name as nama_user')->join('users', 'pencatatans.murid_id', '=', 'users.id')->where('pencatatans.guru_id', $id)->where('users.tingkatan', 'Lanjut')->whereMonth('tanggal', date('m'))->get()->count(),
+            'data_mengajar_lanjut' => Pencatatan::select('pencatatans.*', 'users.name as nama_user')->join('users', 'pencatatans.murid_id', '=', 'users.id')->where('pencatatans.guru_id', $id)->where('users.tingkatan', 'Lancar')->whereMonth('tanggal', date('m'))->get()->count(),
+        );
+
+        $data_hafalan = array(
+            'data_hafalan_1'  => DB::table('hafalans')->where('guru_id', $id)->where('jenis', 1)->whereMonth('tanggal_hafalan', date('m'))->get()->count(),
+            'data_hafalan_2'  => DB::table('hafalans')->where('guru_id', $id)->where('jenis', 2)->whereMonth('tanggal_hafalan', date('m'))->get()->count(),
         );
 
         $data = User::where('id', $id)->first();
-        return view('admin.guru.detail', compact('data', 'dataPresensi', 'data_mengajar'));
+        return view('admin.guru.detail', compact('data', 'dataPresensi', 'data_mengajar', 'data_hafalan'));
     }
 
     public function createPage() {
